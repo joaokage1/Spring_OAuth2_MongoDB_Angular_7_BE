@@ -5,9 +5,7 @@ import com.toddy.ws.dto.UserDTO;
 import com.toddy.ws.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,4 +26,22 @@ public class UserResource {
         return ResponseEntity.ok().body(usersDTO);
     }
 
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserDTO> fetchUserById(@PathVariable String id) {
+        User user = userService.fetchUserById(id);
+        return ResponseEntity.ok().body(new UserDTO(user));
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<UserDTO> insertUser(@RequestBody UserDTO userDTO){
+        User user = userService.fromDTO(userDTO);
+        return ResponseEntity.ok().body(new UserDTO(userService.insertUser(user)));
+    }
+
+    @PutMapping("users/{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable String id, @RequestBody UserDTO userDTO){
+        User user = userService.fromDTO(userDTO);
+        user.setId(id);
+        return ResponseEntity.ok().body(new UserDTO(userService.updateUser(user)));
+    }
 }
