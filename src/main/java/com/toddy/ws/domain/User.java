@@ -2,9 +2,12 @@ package com.toddy.ws.domain;
 
 import com.toddy.ws.dto.UserDTO;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Document
@@ -17,6 +20,9 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
+
+    @DBRef(lazy = true)
+    private List<Role> roles;
 
     public User() {
     }
@@ -71,6 +77,21 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role){
+        if (roles == null){
+            roles = new ArrayList<>();
+        }
+        roles.add(role);
     }
 
     @Override

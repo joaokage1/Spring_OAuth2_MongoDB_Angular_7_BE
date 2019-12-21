@@ -1,6 +1,8 @@
 package com.toddy.ws.config;
 
+import com.toddy.ws.domain.Role;
 import com.toddy.ws.domain.User;
+import com.toddy.ws.repository.RoleRepository;
 import com.toddy.ws.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -15,16 +17,26 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
         userRepository.deleteAll();
+        roleRepository.deleteAll();
 
         User joao = new User("João", "Souza", "joao@gmail.com");
         User maria = new User("Maria", "Teixeira", "maria@gmail.com");
+        Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
+        Role roleUser = createRoleIfNotFound("ROLE_USER");
+
+        joao.addRole(roleAdmin);
+        maria.addRole(roleUser);
 
         createUserIfNotFound(joao);
         createUserIfNotFound(maria);
+
     }
 
     private User createUserIfNotFound(final User user){
@@ -34,5 +46,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         }
 
         return userRepository.save(user);
+    }
+
+    private Role createRoleIfNotFound(String name){
+        Optional<Role> role = roleRepository.findByName(name);
+        if (role.isPresent()){
+            return role.get();
+        }
+        return roleRepository.save(new Role(name));
     }
 }

@@ -1,5 +1,6 @@
 package com.toddy.ws.resources;
 
+import com.toddy.ws.domain.Role;
 import com.toddy.ws.domain.User;
 import com.toddy.ws.dto.UserDTO;
 import com.toddy.ws.services.UserService;
@@ -38,10 +39,23 @@ public class UserResource {
         return ResponseEntity.ok().body(new UserDTO(userService.insertUser(user)));
     }
 
-    @PutMapping("users/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable String id, @RequestBody UserDTO userDTO){
         User user = userService.fromDTO(userDTO);
         user.setId(id);
         return ResponseEntity.ok().body(new UserDTO(userService.updateUser(user)));
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String id){
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/users/{id}/roles")
+    public ResponseEntity<List<Role>> fetchRoles(@PathVariable String id){
+        User user = userService.fetchUserById(id);
+
+        return ResponseEntity.ok().body(user.getRoles());
     }
 }
