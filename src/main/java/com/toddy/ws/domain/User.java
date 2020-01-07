@@ -24,6 +24,10 @@ public class User implements Serializable {
     @DBRef(lazy = true)
     private List<Role> roles;
 
+    // Authentication
+    private String password;
+    private Boolean enabled;
+
     public User() {
     }
 
@@ -33,11 +37,14 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public User(String id, String firstName, String lastName, String email) {
+    public User(String id, String firstName, String lastName, String email, String
+            password, boolean enabled) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
+        this.enabled = enabled;
     }
 
     public User (UserDTO userDTO){
@@ -45,6 +52,32 @@ public class User implements Serializable {
         this.firstName = userDTO.getFirstName();
         this.lastName = userDTO.getLastName();
         this.email = userDTO.getEmail();
+    }
+
+    public User(User user) {
+        this.id = user.getId();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.enabled = user.getEnabled();
+        this.roles = user.getRoles();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public String getId() {

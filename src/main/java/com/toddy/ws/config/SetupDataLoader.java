@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -15,10 +16,13 @@ import java.util.Optional;
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -32,7 +36,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         Role roleUser = createRoleIfNotFound("ROLE_USER");
 
         joao.addRole(roleAdmin);
+        joao.setPassword(passwordEncoder.encode("123"));
+        joao.setEnabled(true);
+
         maria.addRole(roleUser);
+        maria.setPassword(passwordEncoder.encode("456"));
+        maria.setEnabled(true);
 
         createUserIfNotFound(joao);
         createUserIfNotFound(maria);
