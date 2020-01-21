@@ -19,10 +19,23 @@ public class CORSFilter implements Filter {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, x-auth-token, origin, content-type, accept");
 
+        /**
+         * IN USE
+         *     Access-Control-Allow-Origin : specifies the authorized domains to make cross-domain request. Use “*” as value if there is no restrictions.
+         *     Access-Control-Max-Age : indicates how long the results of a preflight request can be cached.
+         *     Access-Control-Allow-Methods : indicates the methods allowed when accessing the resource (sec).
+         *     Access-Control-Allow-Headers : indicates which header field names can be used during the actual request.
+         *
+         * OTHERS
+         *     Access-Control-Allow-Credentials : specifies if cross-domain requests can have authorization credentials or not.
+         *     Access-Control-Expose-Headers : indicates which headers are safe to expose.
+         * **/
+
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
-            filterChain.doFilter(servletRequest, servletResponse);
+            // Try replace for filterChain.doFilter(request, response); site exemple: request, servletResponse
+            filterChain.doFilter(request, servletResponse); // servletRequest, servletResponse
         }
     }
 }

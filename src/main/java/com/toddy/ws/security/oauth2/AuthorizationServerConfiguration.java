@@ -47,7 +47,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .scopes("bar", "read", "write")
                 .resourceIds(RESOURCE_ID)
-                .accessTokenValiditySeconds(60*60*24) // access token duration: 60 seconds
+                .accessTokenValiditySeconds(60*6) // access token duration: 360 seconds
                 .refreshTokenValiditySeconds(60*60*24); // refresh token duration: 24 hours / one day
     }
 

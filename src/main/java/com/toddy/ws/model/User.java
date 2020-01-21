@@ -1,4 +1,4 @@
-package com.toddy.ws.domain;
+package com.toddy.ws.model;
 
 import com.toddy.ws.dto.UserDTO;
 import org.springframework.data.annotation.Id;

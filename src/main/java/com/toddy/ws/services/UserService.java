@@ -1,6 +1,6 @@
 package com.toddy.ws.services;
 
-import com.toddy.ws.domain.User;
+import com.toddy.ws.model.User;
 import com.toddy.ws.dto.UserDTO;
 import com.toddy.ws.repository.UserRepository;
 import com.toddy.ws.services.exception.ObjectNotFoundException;

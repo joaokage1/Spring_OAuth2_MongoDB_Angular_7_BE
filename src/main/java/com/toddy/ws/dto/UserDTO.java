@@ -1,6 +1,6 @@
 package com.toddy.ws.dto;
 
-import com.toddy.ws.domain.User;
+import com.toddy.ws.model.User;
 
 import java.io.Serializable;
 

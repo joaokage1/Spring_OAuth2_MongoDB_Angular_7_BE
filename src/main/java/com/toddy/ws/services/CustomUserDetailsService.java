@@ -1,7 +1,7 @@
 package com.toddy.ws.services;
 
-import com.toddy.ws.domain.Role;
-import com.toddy.ws.domain.User;
+import com.toddy.ws.model.Role;
+import com.toddy.ws.model.User;
 import com.toddy.ws.repository.UserRepository;
 import com.toddy.ws.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

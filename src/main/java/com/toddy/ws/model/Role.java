@@ -1,4 +1,4 @@
-package com.toddy.ws.domain;
+package com.toddy.ws.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

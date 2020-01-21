@@ -1,15 +1,13 @@
 package com.toddy.ws.resources;
 
-import com.toddy.ws.domain.Role;
-import com.toddy.ws.domain.User;
+import com.toddy.ws.model.Role;
+import com.toddy.ws.model.User;
 import com.toddy.ws.dto.UserDTO;
 import com.toddy.ws.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

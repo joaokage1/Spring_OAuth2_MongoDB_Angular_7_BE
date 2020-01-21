@@ -1,7 +1,7 @@
 package com.toddy.ws.config;
 
-import com.toddy.ws.domain.Role;
-import com.toddy.ws.domain.User;
+import com.toddy.ws.model.Role;
+import com.toddy.ws.model.User;
 import com.toddy.ws.repository.RoleRepository;
 import com.toddy.ws.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
