@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,4 +57,13 @@ public class UserResource {
 
         return ResponseEntity.ok().body(user.getRoles());
     }
+
+    @GetMapping(value="/users/main")
+    public ResponseEntity<UserDTO> getUserMain(Principal principal){
+        User user = userService.findByEmail(principal.getName());
+        UserDTO userDTO = new UserDTO(user);
+        userDTO.setPassword("");
+        return ResponseEntity.ok().body(userDTO);
+    }
+
 }
