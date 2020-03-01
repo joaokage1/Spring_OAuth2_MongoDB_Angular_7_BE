@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">Confirmar Registro de Usuário no Curso </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
+    /> </head>
+<body>
+<div>
+    <h3>
+        Caso você tenha solicitado acesso ao Curso - Spring Boot & Angular 7
+    </h3> <br />
+    <p>
+        Clique no link abaixo para confirmar a sua solicitação <br />
+        <span th:text="${confirmationUrl}"> </span>
+    </p>
+    <p>
+        Nome:
+        <span th:text="${user.firstName}"></span> <span
+            th:text="${user.lastName}" ></span>
+    </p>
+</div>
+</body>
+</html>

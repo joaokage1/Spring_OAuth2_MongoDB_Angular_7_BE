@@ -7,6 +7,7 @@ import com.toddy.ws.model.VerificationToken;
 import com.toddy.ws.repository.RoleRepository;
 import com.toddy.ws.repository.UserRepository;
 import com.toddy.ws.repository.VerificationTokenRepository;
+import com.toddy.ws.services.email.EmailService;
 import com.toddy.ws.services.exception.ObjectAlreadyExistsException;
 import com.toddy.ws.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
 
     public List<User> findAll(){
         return userRepository.findAll();
@@ -67,7 +71,9 @@ public class UserService {
             throw new ObjectAlreadyExistsException("Já existe uma conta com esse endereço de email");
         }
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER").get()));
-        return insertUser(user);
+        user = insertUser(user);
+        this.emailService.sendConfirmationHtmlEmail(user,null);
+        return user;
     }
 
     public void createVerificationTokenForUser(User user, String token){
