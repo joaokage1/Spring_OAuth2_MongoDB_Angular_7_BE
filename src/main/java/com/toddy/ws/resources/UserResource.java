@@ -6,8 +6,13 @@ import com.toddy.ws.dto.UserDTO;
 import com.toddy.ws.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +23,11 @@ public class UserResource {
 
     @Autowired
     private UserService userService;
+
+    TokenStore tokenStore = new InMemoryTokenStore();
+
+    @Autowired
+    DefaultTokenServices tokenServices = new DefaultTokenServices();
 
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> findAll() {
@@ -64,6 +74,18 @@ public class UserResource {
         UserDTO userDTO = new UserDTO(user);
         userDTO.setPassword("");
         return ResponseEntity.ok().body(userDTO);
+    }
+
+    @GetMapping(value = "/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null){
+            String tokenValue = authHeader.replace("Bearer", "").trim();
+            OAuth2AccessToken accessToken = tokenServices.readAccessToken(tokenValue);
+            tokenStore.removeAccessToken(accessToken);
+            tokenServices.revokeToken(String.valueOf(accessToken));
+        }
+        return ResponseEntity.noContent().build();
     }
 
 }
