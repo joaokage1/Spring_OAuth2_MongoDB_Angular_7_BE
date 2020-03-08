@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -71,6 +68,7 @@ public class UserService {
             throw new ObjectAlreadyExistsException("Já existe uma conta com esse endereço de email");
         }
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER").get()));
+        user.setEnabled(false);
         user = insertUser(user);
         this.emailService.sendConfirmationHtmlEmail(user,null);
         return user;
@@ -108,4 +106,14 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
         return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
     }
+
+    public VerificationToken generateNewVerificationToken(String email) {
+        User user = this.findByEmail(email);
+        Optional<VerificationToken> vToken = verificationTokenRepository.findByUser(user);
+        vToken.get().updateToken(UUID.randomUUID().toString());
+        VerificationToken updateVToken = verificationTokenRepository.save(vToken.get());
+        emailService.sendConfirmationHtmlEmail(user, updateVToken);
+        return updateVToken;
+    }
+
 }

@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/public")
 public class RegistrationResource {
 
     @Autowired
     UserService userService;
 
-    @PostMapping("/public/registration/users")
+    @PostMapping("/registration/users")
     public ResponseEntity<Void> registerUser(@RequestBody UserDTO userDTO){
         User user = this.userService.fromDTO(userDTO);
         this.userService.registerUser(user);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/public/regitrationConfirm/users")
+    @GetMapping("/regitrationConfirm/users")
     public ResponseEntity<GenericResponse> confirmRegistrationUser(@RequestParam("token") String token){
         final Object result = this.userService.validateVerificationToken(token);
 
@@ -34,4 +34,11 @@ public class RegistrationResource {
         }
         return  ResponseEntity.status(HttpStatus.SEE_OTHER).body(new GenericResponse(result.toString()));
     }
+
+    @GetMapping("/resendRegistrationToken/users")
+    public ResponseEntity<Void> resendRegistrationToken(@RequestParam("email") String email) {
+        this.userService.generateNewVerificationToken(email);
+        return ResponseEntity.noContent().build();
+    }
+
 }

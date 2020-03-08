@@ -3,6 +3,7 @@ package com.toddy.ws.services;
 import com.toddy.ws.model.Role;
 import com.toddy.ws.model.User;
 import com.toddy.ws.repository.UserRepository;
+import com.toddy.ws.services.exception.ObjectNotEnabledException;
 import com.toddy.ws.services.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (!user.isPresent()){
             throw new UsernameNotFoundException(String.format("User does not exist"));
         } else if (!user.get().getEnabled()){
-            throw new ObjectNotFoundException(String.format("User is not enabled"));
+            throw new ObjectNotEnabledException(String.format("UserNotEnabled"));
         }
         return new UserRepositoryUserDetails(user.get());
     }

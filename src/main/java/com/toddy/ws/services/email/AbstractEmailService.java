@@ -58,7 +58,7 @@ public abstract class AbstractEmailService implements EmailService{
             }else{
                 token = vToken.getToken();
             }
-            String confirmationUrl = this.contextPath + "/api/public/regitrationConfirm/users?token=" + token;
+        String confirmationUrl = this.contextPath +  "/api/public/regitrationConfirm/users?token="+token;
             Context context = new Context();
             context.setVariable("user", user);
             context.setVariable("confirmationUrl", confirmationUrl);
