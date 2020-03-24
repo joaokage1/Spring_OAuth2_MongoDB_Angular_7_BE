@@ -25,7 +25,7 @@ public class RegistrationResource {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/regitrationConfirm/users")
+    @GetMapping("/registrationConfirm/users")
     public ResponseEntity<GenericResponse> confirmRegistrationUser(@RequestParam("token") String token){
         final Object result = this.userService.validateVerificationToken(token);
 
