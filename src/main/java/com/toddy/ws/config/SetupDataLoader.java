@@ -31,25 +31,25 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
-        userRepository.deleteAll();
-        roleRepository.deleteAll();
-        verificationTokenRepository.deleteAll();
+        //userRepository.deleteAll();
+        //roleRepository.deleteAll();
+        //verificationTokenRepository.deleteAll();
 
-        User joao = new User("João", "Souza", "joao@gmail.com");
-        User maria = new User("Maria", "Teixeira", "maria@gmail.com");
-        Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
-        Role roleUser = createRoleIfNotFound("ROLE_USER");
+        //User joao = new User("João", "Souza", "joao@gmail.com");
+        //User maria = new User("Maria", "Teixeira", "maria@gmail.com");
+        //Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
+        //Role roleUser = createRoleIfNotFound("ROLE_USER");
 
-        joao.addRole(roleAdmin);
-        joao.setPassword(passwordEncoder.encode("123"));
-        joao.setEnabled(true);
+        //joao.addRole(roleAdmin);
+        //joao.setPassword(passwordEncoder.encode("123"));
+        //joao.setEnabled(true);
 
-        maria.addRole(roleUser);
-        maria.setPassword(passwordEncoder.encode("456"));
-        maria.setEnabled(true);
+        //maria.addRole(roleUser);
+        //maria.setPassword(passwordEncoder.encode("456"));
+        //maria.setEnabled(true);
 
-        createUserIfNotFound(joao);
-        createUserIfNotFound(maria);
+        //createUserIfNotFound(joao);
+        //createUserIfNotFound(maria);
 
     }
 
