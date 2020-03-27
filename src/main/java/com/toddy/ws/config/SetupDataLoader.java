@@ -37,8 +37,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
         //User joao = new User("João", "Souza", "joao@gmail.com");
         //User maria = new User("Maria", "Teixeira", "maria@gmail.com");
-        //Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
-        //Role roleUser = createRoleIfNotFound("ROLE_USER");
+        Role roleAdmin = createRoleIfNotFound("ROLE_ADMIN");
+        Role roleUser = createRoleIfNotFound("ROLE_USER");
 
         //joao.addRole(roleAdmin);
         //joao.setPassword(passwordEncoder.encode("123"));

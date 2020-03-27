@@ -37,12 +37,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public User(String id, String firstName, String lastName, String email, String
-            password, boolean enabled) {
+    public User(String id, String firstName, String lastName, String email, List<Role> roles, String password, Boolean enabled) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.roles = roles;
         this.password = password;
         this.enabled = enabled;
     }
@@ -52,7 +52,9 @@ public class User implements Serializable {
         this.firstName = userDTO.getFirstName();
         this.lastName = userDTO.getLastName();
         this.email = userDTO.getEmail();
+        this.roles = userDTO.getRoles();
         this.password = userDTO.getPassword();
+        this.enabled = userDTO.getEnabled();
     }
 
     public User(User user) {
