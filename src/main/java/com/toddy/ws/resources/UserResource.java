@@ -4,6 +4,9 @@ import com.toddy.ws.model.Role;
 import com.toddy.ws.model.User;
 import com.toddy.ws.dto.UserDTO;
 import com.toddy.ws.services.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
+@Api(description = "Endpoints para criar, retornar, atualizar e deletar usuários.")
 public class UserResource {
 
     @Autowired
@@ -37,7 +41,8 @@ public class UserResource {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserDTO> fetchUserById(@PathVariable String id) {
+    @ApiOperation("Retorna um especifico usuário através do seu identificador.")
+    public ResponseEntity<UserDTO> fetchUserById(@ApiParam("Id do usuário. Não pode ser vazio") @PathVariable String id) {
         User user = userService.fetchUserById(id);
         return ResponseEntity.ok().body(new UserDTO(user));
     }
