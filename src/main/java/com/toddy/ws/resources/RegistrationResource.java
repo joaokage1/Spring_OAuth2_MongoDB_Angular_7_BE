@@ -2,6 +2,7 @@ package com.toddy.ws.resources;
 
 import com.toddy.ws.dto.UserDTO;
 import com.toddy.ws.model.User;
+import com.toddy.ws.model.VerificationToken;
 import com.toddy.ws.resources.util.GenericResponse;
 import com.toddy.ws.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,36 @@ public class RegistrationResource {
 
     @GetMapping("/resendRegistrationToken/users")
     public ResponseEntity<Void> resendRegistrationToken(@RequestParam("email") String email) {
-        this.userService.generateNewVerificationToken(email);
+        this.userService.generateNewVerificationToken(email, 0);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/changePassword/users")
+    public ResponseEntity<GenericResponse> changePassword(@RequestParam("id") String idUser, @RequestParam("token") String token) {
+        final String result = userService.validateVerificationToken(idUser, token);
+        if (result == null){
+            return ResponseEntity.ok().body(new GenericResponse("success"));
+        }
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).body(new GenericResponse(result.toString()));
+    }
+
+    @PostMapping("/savePassword/users")
+    public ResponseEntity<GenericResponse> savePassword(@RequestParam("token") String token, @RequestParam("password") String password) {
+        final Object result = this.userService.validateVerificationToken(token);
+        if (result != null){
+            return ResponseEntity.status(HttpStatus.SEE_OTHER).body(new GenericResponse(result.toString()));
+        }
+        final VerificationToken verificationToken = userService.getVerificationByToken(token);
+        if (verificationToken != null){
+            userService.changeUserPassworc(verificationToken.getUser(), password);
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/resetPassword/users")
+    public ResponseEntity<Void> resetPassword (@RequestParam("email") final String email){
+        this.userService.generateNewVerificationToken(email, 1);
         return ResponseEntity.noContent().build();
     }
 
